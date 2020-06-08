@@ -1,0 +1,104 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+.button{
+    -fx-background-color:transparent;
+}
+#ceplok{
+    -fx-background-image: url('images/ceplok1.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100%;
+}
+#bluePane{
+    -fx-background-color: #0e2a36;
+}
+/*.slider .thumb{
+    -fx-background-color: transparent;
+}
+.slider .track{
+    -fx-background-color: linear-gradient(to right, green START, white END);
+}*/
+#slide .colored-track{
+    -fx-background-color: #ffee00;
+    /*-fx-pref-height:18px;*/
+    -fx-orientation: vertical;
+}
+#slide .track{
+    -fx-pref-height:5px;
+    /*-fx-background-color:hsla(0, 0%, 0%, 0.63);*/
+}
+#slide .thumb{
+    -fx-background-color: #ffee00;
+    -fx-background-radius: 3px;
+    -fx-scale-x: 0.7;
+    -fx-scale-y: 0.7;
+}
+#slide .animated-thumb,
+#slide .animated-thumb .slider-value{
+    -fx-background-color: transparent;
+    -fx-text-fill: transparent;
+    -fx-fill: transparent;
+    -fx-stroke: transparent;
+}
+/****************************************************************
+ 
+  Table Skin  
+ 
+****************************************************************/
+.table-column{
+    /*-fx-background-color: #00a1cf;*/
+    -fx-min-height:30px;
+}
+#tableList{
+    /*-fx-selection-bar:#4ade4e61;*/
+    -fx-selection-bar:#ffee0036;
+}
+#tableList .table-cell{
+    -fx-font-size: 12px;
+}
+/*.table-view .table-row-cel:selected{
+    -fx-background-color: #00834661;
+}*/
+#tableList .column-header{
+    /*-fx-background-color: #4ade4e;*/
+    -fx-background-color:#ead701;
+}
+#tableList:row-selection > .column-header-background > .nested-column-header > .table-column > .label{
+    -fx-text-fill:#0e2a36;
+    -fx-border-color:#0e2a36;
+    -fx-border-insets: -3 -12 -3 -3, 0 0 0 0;
+    -fx-font-size: 13px;
+}
+#tableList{
+    -fx-background-color: -fx-table-cell-border-color, -fx-background;
+    -fx-background-insets: 1, 1, 0;
+}
+#tableList:focused {
+    -fx-background-color: -fx-table-cell-border-color, -fx-background;
+    -fx-background-insets: 1, 1, 0;
+}
+#tableList .scroll-bar:vertical{
+    -fx-min-width: 12px;
+    -fx-pref-width: 12px;
+    -fx-max-width: 12px;
+}
+/*work but msih arrow still exist*/
+#tableList .scroll-bar:horizontal{
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+    
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+}
+#tableList .scroll-bar:horizontal .increment-button .increment-arrow{
+    -fx-opacity:0;
+}
+#tableList .scroll-bar:horizontal .decrement-button .decrement-arrow{
+    -fx-opacity:0;
+}

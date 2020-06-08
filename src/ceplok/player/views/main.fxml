@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" fx:id="parent" prefHeight="581.0" prefWidth="522.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ceplok.player.controller.MainController">
+    <stylesheets>
+        <URL value="@main.css" />
+    </stylesheets>
+   <children>
+      <HBox fx:id="boxMain" layoutX="20.0" layoutY="20.0" prefHeight="176.0">
+         <children>
+            <VBox prefHeight="176.0" spacing="6.0">
+               <children>
+                  <HBox spacing="5.0">
+                     <children>
+                        <HBox id="bluePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="78.0" prefWidth="225.0" spacing="3.0">
+                           <children>
+                              <ImageView fx:id="trackImg" fitHeight="68.0" fitWidth="77.0" pickOnBounds="true">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <HBox fx:id="boxTrackTitle">
+                                       <children>
+                                          <Pane>
+                                             <children>
+                                                <Label fx:id="trackTitle" ellipsisString=".." text="Title" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </Pane>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT">
+                                       <children>
+                                          <Label fx:id="trackArtist" prefWidth="136.0" text="Unknown Artist" textFill="WHITE" wrapText="true">
+                                             <font>
+                                                <Font size="10.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets top="-3.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <effect>
+                              <DropShadow height="6.17" radius="2.585" width="6.17" />
+                           </effect>
+                        </HBox>
+                        <VBox id="bluePane">
+                           <effect>
+                              <DropShadow height="6.17" radius="2.585" width="6.17" />
+                           </effect>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <HBox maxHeight="82.0" minHeight="78.0" prefHeight="82.0" prefWidth="230.0" spacing="5.0">
+                     <children>
+                        <VBox id="bluePane" prefHeight="78.0" prefWidth="225.0" spacing="4.0">
+                           <children>
+                              <HBox alignment="TOP_CENTER">
+                                 <children>
+                                    <JFXButton fx:id="bPrev" contentDisplay="GRAPHIC_ONLY" ripplerFill="#ffee00" style="-fx-background-radius: 5em;">
+                                       <graphic>
+                                          <MaterialDesignIconView fill="WHITE" glyphName="SKIP_PREVIOUS" size="26" />
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="-2.0" right="-2.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                    <JFXButton fx:id="bPause" contentDisplay="GRAPHIC_ONLY" layoutX="78.0" layoutY="10.0" ripplerFill="#ffee00" style="-fx-background-radius: 5em;" text="Button">
+                                       <graphic>
+                                          <MaterialDesignIconView fill="WHITE" glyphName="PAUSE" size="26" />
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="-2.0" right="-2.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                    <JFXButton fx:id="bPlay" contentDisplay="GRAPHIC_ONLY" ripplerFill="#ffee00" style="-fx-background-radius: 5em;" text="Button">
+                                       <graphic>
+                                          <MaterialDesignIconView fill="WHITE" glyphName="PLAY" size="26" />
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="-2.0" right="-2.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                    <JFXButton fx:id="bStop" contentDisplay="GRAPHIC_ONLY" layoutX="67.0" layoutY="10.0" ripplerFill="#ffee00" style="-fx-background-radius: 5em;" text="Button">
+                                       <graphic>
+                                          <MaterialDesignIconView fill="WHITE" glyphName="STOP" size="26" />
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="-2.0" right="-2.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                    <JFXButton fx:id="bNext" contentDisplay="GRAPHIC_ONLY" layoutX="229.0" layoutY="10.0" ripplerFill="#ffee00" style="-fx-background-radius: 5em;" text="Button">
+                                       <graphic>
+                                          <MaterialDesignIconView fill="WHITE" glyphName="SKIP_NEXT" size="26" />
+                                       </graphic>
+                                       <HBox.margin>
+                                          <Insets left="-2.0" right="-2.0" />
+                                       </HBox.margin>
+                                    </JFXButton>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="3.0" right="3.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <JFXSlider id="slide" fx:id="slider" value="1.0E-4">
+                                 <VBox.margin>
+                                    <Insets left="3.0" right="3.0" />
+                                 </VBox.margin>
+                              </JFXSlider>
+                              <HBox>
+                                 <children>
+                                    <HBox HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label fx:id="ltCurrent" text="-:-" textFill="WHITE">
+                                             <font>
+                                                <Font size="11.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="TOP_RIGHT" layoutX="10.0" layoutY="10.0" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label fx:id="ltDuration" text="-:-" textFill="WHITE">
+                                             <font>
+                                                <Font size="11.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="3.0" right="3.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                           <effect>
+                              <DropShadow height="6.17" radius="2.585" width="6.17" />
+                           </effect>
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <padding>
+                              <Insets top="3.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox fx:id="visualBoxParent">
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+               <children>
+                  <HBox id="bluePane" fx:id="visualBox" alignment="BOTTOM_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="3.0">
+                     <effect>
+                        <DropShadow height="6.17" radius="2.585" width="6.17" />
+                     </effect>
+                     <padding>
+                        <Insets left="3.0" right="3.0" />
+                     </padding>
+                  </HBox>
+                  <JFXButton fx:id="bVisual" contentDisplay="GRAPHIC_ONLY" prefHeight="35.0" prefWidth="35.0" ripplerFill="#ffee00" style="-fx-background-radius: 5em;">
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="CONNECTDEVELOP" size="16" />
+                     </graphic>
+                     <HBox.margin>
+                        <Insets left="-35.0" />
+                     </HBox.margin>
+                  </JFXButton>
+               </children>
+            </HBox>
+            <HBox fillHeight="false">
+               <children>
+                  <VBox id="bluePane" prefHeight="166.0" prefWidth="28.0">
+                     <children>
+                        <JFXButton fx:id="bExit" contentDisplay="GRAPHIC_ONLY" prefHeight="28.0" prefWidth="28.0" ripplerFill="#ffee00" style="-fx-background-radius: 5em;" textFill="WHITE">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" />
+                           </graphic>
+                           <VBox.margin>
+                              <Insets bottom="-2.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="bMinimize" contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="10.0" prefHeight="28.0" prefWidth="28.0" ripplerFill="#ffee00" style="-fx-background-radius: 5em;" textFill="WHITE">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="MINUS" />
+                           </graphic>
+                           <VBox.margin>
+                              <Insets bottom="-2.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                        <JFXButton fx:id="bGithub" contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="116.0" prefHeight="28.0" prefWidth="28.0" ripplerFill="#ffee00" style="-fx-background-radius: 5em;" textFill="WHITE">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="GITHUB" size="14" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="bRepeat" contentDisplay="GRAPHIC_ONLY" prefHeight="28.0" prefWidth="28.0" ripplerFill="#ffee00" style="-fx-background-radius: 5em;" textFill="WHITE">
+                           <graphic>
+                              <FontAwesomeIconView fx:id="viewRepeat" fill="WHITE" glyphName="REPEAT" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="bShuffle" contentDisplay="GRAPHIC_ONLY" prefHeight="28.0" prefWidth="28.0" ripplerFill="#ffee00" style="-fx-background-radius: 5em;" textFill="WHITE">
+                           <graphic>
+                              <FontAwesomeIconView fx:id="viewShuffle" fill="WHITE" glyphName="RANDOM" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="bList" contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="35.0" prefHeight="28.0" prefWidth="28.0" ripplerFill="#ffee00" style="-fx-background-radius: 5em;" textFill="WHITE">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="LIST" />
+                           </graphic>
+                           <VBox.margin>
+                              <Insets bottom="-2.0" />
+                           </VBox.margin>
+                        </JFXButton>
+                     </children>
+                     <effect>
+                        <DropShadow height="6.17" radius="2.585" width="6.17" />
+                     </effect>
+                  </VBox>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </HBox>
+         </children>
+      </HBox>
+      <VBox id="bluePane" fx:id="boxList" layoutX="20.0" layoutY="190.0" prefHeight="359.0" prefWidth="472.0">
+         <children>
+            <Pane prefHeight="351.0" prefWidth="623.0">
+               <children>
+                  <HBox id="bluePane" layoutY="-30.0" prefHeight="42.0" prefWidth="376.0">
+                     <children>
+                        <HBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label text="You can drag your audio files to table" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Italic" size="13.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets left="7.0" />
+                     </padding>
+                  </HBox>
+                  <TableView id="tableList" fx:id="tableMusic" layoutX="4.0" layoutY="4.0" prefHeight="351.0" prefWidth="463.0">
+                      <placeholder>
+                        <Label text="" />
+                     </placeholder>
+                     <columns>
+                        <TableColumn fx:id="colTitle" prefWidth="373.0" text="Title" />
+                        <TableColumn fx:id="colDuration" minWidth="0.0" prefWidth="89.0" text="Duration" />
+                     </columns>
+                  </TableView>
+                  <JFXButton id="bluePane" fx:id="bListClose" contentDisplay="GRAPHIC_ONLY" layoutX="445.0" layoutY="-30.0" ripplerFill="#ffee00" style="-fx-background-radius: 0px;">
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" />
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton id="bluePane" fx:id="bListFolder" contentDisplay="GRAPHIC_ONLY" layoutX="413.0" layoutY="-30.0" ripplerFill="#ffee00" style="-fx-background-radius: 0px;">
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="FOLDER" />
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton id="bluePane" fx:id="bListFile" contentDisplay="GRAPHIC_ONLY" layoutX="381.0" layoutY="-30.0" ripplerFill="#ffee01" style="-fx-background-radius: 0px;">
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="FILE" />
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </Pane>
+         </children>
+         <effect>
+            <DropShadow height="6.17" radius="2.585" width="6.17" />
+         </effect>
+      </VBox>
+   </children>
+</AnchorPane>

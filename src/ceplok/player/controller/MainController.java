@@ -308,7 +308,7 @@ public class MainController implements Initializable {
                 bRepeat.setTooltip(new Tooltip((repeat)?"repeat is active":"repeat disabled"));
             }
         });
-        bGithub.setTooltip(new Tooltip("Check out my other prejects here :D"));
+        bGithub.setTooltip(new Tooltip("Check out my other projects here :D"));
         bGithub.setOnAction((event) -> {
             try {
                 Desktop.getDesktop().browse(URI.create("https://github.com/rizalmf"));

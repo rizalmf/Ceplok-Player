@@ -10,6 +10,8 @@
 ![2](2fix.PNG)
 
 ### Changelog
+- v1.2.1
+   - add volume control
 - v1.1.1
    - improve ndog visualizer performance
 - v1.1.0

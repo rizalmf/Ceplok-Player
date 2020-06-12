@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.awt.Desktop;
 import java.io.BufferedReader;
@@ -104,13 +105,9 @@ public class MainController implements Initializable {
     @FXML
     private JFXButton bNext;
     @FXML
-    private JFXSlider slider;
-    @FXML
     private Label ltCurrent;
     @FXML
     private Label ltDuration;
-    @FXML
-    private JFXButton bShuffle;
     @FXML
     private JFXButton bList;
     @FXML
@@ -132,21 +129,27 @@ public class MainController implements Initializable {
     @FXML
     private JFXButton bListFile;
     @FXML
-    private JFXButton bRepeat;
-    @FXML
     private TableView<DataProp> tableMusic;
     @FXML
     private TableColumn<DataProp, String> colTitle;
     @FXML
     private TableColumn<DataProp, String> colDuration;
     @FXML
-    private FontAwesomeIconView viewRepeat;
-    @FXML
-    private FontAwesomeIconView viewShuffle;
-    @FXML
     private HBox visualBoxParent;
     @FXML
     private JFXButton bGithub;
+    @FXML
+    private JFXSlider sliderTrack;
+    @FXML
+    private JFXButton bVolume;
+    @FXML
+    private JFXButton bShuffleRepeat;
+    @FXML
+    private HBox boxVolume;
+    @FXML
+    private JFXSlider sliderVolume;
+    @FXML
+    private FontAwesomeIconView viewShuffleRepeat;
 
     /**
      * Initializes the controller class.
@@ -163,6 +166,7 @@ public class MainController implements Initializable {
         parent.setBackground(Background.EMPTY);
         boxMainProperties();
         boxListProperties();
+        boxVolumeProperties();
         Platform.runLater(() -> {
             boxMain.setLayoutX(400);boxMain.setLayoutY(200);
             boxList.setLayoutX(400);boxList.setLayoutY(415);
@@ -342,21 +346,22 @@ public class MainController implements Initializable {
             boxList.setVisible(!boxList.isVisible());
             bList.setTooltip(new Tooltip((boxList.isVisible())?"open music list":"close music list"));
         });
-        bRepeat.setTooltip(new Tooltip((repeat)?"repeat is active":"repeat disabled"));
-        bRepeat.setOnAction((event) -> {
-            repeat = !repeat;
-            viewRepeat.setFill(Paint.valueOf((repeat)? "#ffee00":"#ffffff"));
-            bRepeat.setTooltip(new Tooltip((repeat)?"repeat is active":"repeat disabled"));
-        });
-        bShuffle.setTooltip(new Tooltip((shuffle)?"shuffle is active":"shuffle disabled"));
-        bShuffle.setOnAction((event) -> {
-            shuffle = !shuffle;
-            viewShuffle.setFill(Paint.valueOf((shuffle)? "#ffee00":"#ffffff"));
-            bShuffle.setTooltip(new Tooltip((shuffle)?"shuffle is active":"shuffle disabled"));
-            if (shuffle) {
+        bShuffleRepeat.setTooltip(new Tooltip("repeat disabled"));
+        bShuffleRepeat.setOnAction((event) -> {
+            if (repeat && !shuffle) {
+                shuffle = true;
+                viewShuffleRepeat.setIcon(FontAwesomeIcon.RANDOM);
+                viewShuffleRepeat.setFill(Paint.valueOf("#ffee00"));
+                bShuffleRepeat.setTooltip(new Tooltip("shuffle is active"));
+            }else if(repeat && shuffle){
+                repeat = false; shuffle = false;
+                viewShuffleRepeat.setIcon(FontAwesomeIcon.REPEAT);
+                viewShuffleRepeat.setFill(Paint.valueOf("#ffffff"));
+                bShuffleRepeat.setTooltip(new Tooltip("repeat disabled"));
+            }else{
                 repeat = true;
-                viewRepeat.setFill(Paint.valueOf((repeat)? "#ffee00":"#ffffff"));
-                bRepeat.setTooltip(new Tooltip((repeat)?"repeat is active":"repeat disabled"));
+                viewShuffleRepeat.setFill(Paint.valueOf("#ffee00"));
+                bShuffleRepeat.setTooltip(new Tooltip("repeat is active"));
             }
         });
         bGithub.setTooltip(new Tooltip("Check out my other projects here :D"));
@@ -366,6 +371,10 @@ public class MainController implements Initializable {
             } catch (IOException ex) {
                 Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             }
+        });
+        bVolume.setTooltip(new Tooltip("adjust volume"));
+        bVolume.setOnAction((event) -> {
+            boxVolume.setVisible(!boxVolume.isVisible());
         });
     }
     
@@ -389,7 +398,8 @@ public class MainController implements Initializable {
     }
     private void setStop(){
         if (mediaPlayer != null) {
-            slider.setValue(0);
+            mediaPlayer.volumeProperty().unbind();
+            sliderTrack.setValue(0);
             mediaPlayer.stop(); 
         }
     }
@@ -412,16 +422,26 @@ public class MainController implements Initializable {
         }
     }
     private void sliderProperties(){
-        slider.setOnMouseReleased((event) -> {
+        sliderTrack.setOnMouseReleased((event) -> {
             if (mediaPlayer != null) {
-                mediaPlayer.seek(new Duration(slider.getValue()));
+                mediaPlayer.seek(new Duration(sliderTrack.getValue()));
 
                 currentVisualizer.start(numBands, visualBox);
                 mediaPlayer.play();
             }  
         });
-        slider.valueProperty().addListener((obs, oldVal, newVal) -> {
+        sliderTrack.valueProperty().addListener((obs, oldVal, newVal) -> {
             ltCurrent.setText(convertMs(newVal.doubleValue()));
+        });
+        
+        //unused
+        sliderVolume.setOnMouseDragged((event) -> {
+        });
+        sliderVolume.setOnScroll((event) -> {
+            if (sliderVolume.getValue() > 1.0 || sliderVolume.getValue() < 0.0) {
+                return;
+            }
+            sliderVolume.setValue(sliderVolume.getValue() + ((event.getDeltaY()>=0)? 0.03:-0.03));
         });
     }
     private boolean addFile(File file, boolean isPlay){
@@ -506,8 +526,8 @@ public class MainController implements Initializable {
     private void handleUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
         Duration ct = mediaPlayer.getCurrentTime();
         double ms = ct.toMillis();
-        if (!slider.isPressed()) {
-            slider.setValue(ms);
+        if (!sliderTrack.isPressed()) {
+            sliderTrack.setValue(ms);
         }
        currentVisualizer.update(timestamp, duration, magnitudes, phases);
     }
@@ -518,13 +538,16 @@ public class MainController implements Initializable {
         Duration ct = mediaPlayer.getCurrentTime();
         ltCurrent.setText(convertMs(ct.toMillis()));
         currentVisualizer.start(numBands, visualBox);
-        slider.setMin(0);
-        slider.setMax(duration.toMillis());
+        mediaPlayer.volumeProperty().unbind();
+        mediaPlayer.volumeProperty().bind(sliderVolume.valueProperty());
+        sliderTrack.setMin(0);
+        sliderTrack.setMax(duration.toMillis());
     }
     private void handleEndOfMedia(boolean isPrev) {
         mediaPlayer.stop();
         mediaPlayer.seek(Duration.ZERO);
-        slider.setValue(0);
+        mediaPlayer.volumeProperty().unbind();
+        sliderTrack.setValue(0);
         boolean found = false;
         if (isPrev) {
             for (int i = mediaList.size()-1; i >= 0; i--) {
@@ -584,6 +607,14 @@ public class MainController implements Initializable {
         String sSecond = (second < 10)? "0"+second :second+"";
         return (hour==0) ?minute+":"+sSecond :hour+":"+minute+":"+sSecond;
     }
+    
+    private void boxVolumeProperties(){
+        boxVolume.setVisible(false);
+        boxVolume.visibleProperty().addListener((obs, oldVal, newVal) -> {
+            if(newVal) sliderVolume.requestFocus();
+        });
+    }
+    
     private void boxListProperties(){
         boxList.setVisible(false);
         boxMain.setLayoutX(400);
@@ -673,7 +704,8 @@ public class MainController implements Initializable {
             boxList.toFront();
             if (event.getClickCount() ==2) {
                 DataProp data = tableMusic.getSelectionModel().getSelectedItem();
-                slider.setValue(0);
+                mediaPlayer.volumeProperty().unbind();
+                sliderTrack.setValue(0);
                 trackTitle.setText(data.getFileData().getName());
                 media = data.getMediaData();
                 if (mediaPlayer != null) {
@@ -703,7 +735,8 @@ public class MainController implements Initializable {
                 tableMusic.setItems(dataProps);
             }else if(event.getCode() == KeyCode.ENTER){
                 DataProp data = tableMusic.getSelectionModel().getSelectedItems().get(0);
-                slider.setValue(0);
+                mediaPlayer.volumeProperty().unbind();
+                sliderTrack.setValue(0);
                 trackTitle.setText(data.getFileData().getName());
                 media = data.getMediaData();
                 if (mediaPlayer != null) {

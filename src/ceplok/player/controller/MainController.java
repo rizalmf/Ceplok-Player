@@ -10,6 +10,7 @@ import ceplok.player.Media.Visualizer.Visualizer;
 import ceplok.player.Media.Visualizer.impl.LaplapVisualizer;
 import ceplok.player.Media.Visualizer.impl.NdogVisualizer;
 import ceplok.player.Media.Visualizer.impl.StandardVisualizer;
+import ceplok.player.Media.Visualizer.impl.TrackImageVisualizer;
 import ceplok.player.model.DataProp;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,6 +41,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -166,8 +168,38 @@ public class MainController implements Initializable {
             boxList.setLayoutX(400);boxList.setLayoutY(415);
             //check files
             checkStoredList();
+            stageProperties();
         });
     }   
+    private void stageProperties(){
+        Stage stage = (Stage) parent.getScene().getWindow();
+        Scene scene = stage.getScene();
+        scene.setOnKeyReleased((event) -> {
+            switch(event.getCode()){
+                case X: if (mediaPlayer != null) {
+                            if (mediaPlayer.statusProperty().get() == MediaPlayer.Status.PLAYING) {
+                                setPause();
+                            }else{ setPlay(); }
+                        }else{ setPlay(); }break;
+                case S: setStop();
+                        break;
+                case P: setPrev();
+                        break;
+                case N: setNext();
+                        break;
+                case L: boxList.setVisible(!boxList.isVisible());
+                        if(boxList.isVisible()) tableMusic.requestFocus();
+                        break;
+                case M: stage.setIconified(true);
+                        break;
+            }
+        });
+        bPlay.setTooltip(new Tooltip("shortcut: X"));
+        bPause.setTooltip(new Tooltip("shortcut: X"));
+        bStop.setTooltip(new Tooltip("shortcut: S"));
+        bPrev.setTooltip(new Tooltip("shortcut: P"));
+        bNext.setTooltip(new Tooltip("shortcut: N"));
+    }
     private void checkStoredList(){
         File file = new File("list.txt");
         if (file.exists()) {
@@ -256,41 +288,59 @@ public class MainController implements Initializable {
         boxTrackTitle.setClip(rect);
     }
     private void playerProperties(){
-        bPlayProperties();
-        bPauseProperties();
-        bStopProperties();
-        bNextPrevProperties();
+        bPlay.setOnAction((event) -> {
+            setPlay();
+        });
+        bPause.setOnAction((event) -> {
+            setPause();
+        });
+        bStop.setOnAction((event) -> {
+            setStop();
+        });
+        bNext.setOnAction((event) -> {
+            setNext();
+        });
+        bPrev.setOnAction((event) -> {
+            setPrev();
+        });
         sliderProperties();
     }
     private void windowProperties(){
-        bMinimize.setOnAction((event) -> {
-            Node node = (Node) event.getSource();
-            Stage stage = (Stage) node.getScene().getWindow();
-            stage.setIconified(true);
-        });
+        bExit.setTooltip(new Tooltip("exit app"));
         bExit.setOnAction((event) -> {
             if (mediaPlayer != null) {
                 mediaPlayer.stop();
             }
             System.exit(0);
         });
+        bMinimize.setTooltip(new Tooltip("minimize app"));
+        bMinimize.setOnAction((event) -> {
+            Node node = (Node) event.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+            stage.setIconified(true);
+        });
+        bVisual.setTooltip(new Tooltip("change visualizer"));
         bVisual.setOnAction((event) -> {
             if (currentVisualizer != null) {
                 currentVisualizer.end();
             }
             switch(visualState){
                 case 0: currentVisualizer= new NdogVisualizer();
-                        visualState = 2;break;
+                        visualState =2;break;
                 case 1: currentVisualizer= new LaplapVisualizer();//takeout laplap. not cool
+                        visualState++;break;
+                case 2: currentVisualizer= new TrackImageVisualizer(trackImg);
                         visualState++;break;
                 default:currentVisualizer= new StandardVisualizer();
                         visualState =0;break;
             }
-            numBands = (visualState==99)?16:120;
+            numBands = (visualState==3)?10:120;
             currentVisualizer.start(numBands, visualBox);
         });
+        bList.setTooltip(new Tooltip((boxList.isVisible())?"open music list":"close music list"));
         bList.setOnAction((e) -> {
             boxList.setVisible(!boxList.isVisible());
+            bList.setTooltip(new Tooltip((boxList.isVisible())?"open music list":"close music list"));
         });
         bRepeat.setTooltip(new Tooltip((repeat)?"repeat is active":"repeat disabled"));
         bRepeat.setOnAction((event) -> {
@@ -318,55 +368,48 @@ public class MainController implements Initializable {
             }
         });
     }
-    private void bPlayProperties(){
-        bPlay.setOnAction((event) -> {
-            if (mediaPlayer != null) {
-                mediaPlayer.play();
-            }else{
-                if (!mediaList.isEmpty()) {
-                    trackTitle.setText(fileList.get(0).getName());
-                    media = mediaList.get(0);
-                    tableMusic.scrollTo(0);
-                    tableMusic.getSelectionModel().clearAndSelect(0);
-                    openMedia(media);
-                }
+    
+    private void setPlay(){
+        if (mediaPlayer != null) {
+            mediaPlayer.play();
+        }else{
+            if (!mediaList.isEmpty()) {
+                trackTitle.setText(fileList.get(0).getName());
+                media = mediaList.get(0);
+                tableMusic.scrollTo(0);
+                tableMusic.getSelectionModel().clearAndSelect(0);
+                openMedia(media);
             }
-        });
+        }
     }
-    private void bPauseProperties(){
-        bPause.setOnAction((event) -> {
-            if (mediaPlayer != null) {
-                mediaPlayer.pause(); 
-            }
-        });
+    private void setPause(){
+        if (mediaPlayer != null) {
+            mediaPlayer.pause(); 
+        }
     }
-    private void bStopProperties(){
-        bStop.setOnAction((event) -> {
-            if (mediaPlayer != null) {
-                slider.setValue(0);
-                mediaPlayer.stop(); 
-            }
-        });
+    private void setStop(){
+        if (mediaPlayer != null) {
+            slider.setValue(0);
+            mediaPlayer.stop(); 
+        }
     }
-    private void bNextPrevProperties(){
-        bNext.setOnAction((event) -> {
-            if (mediaPlayer != null) {
-                handleEndOfMedia(false);
-            }else{
-                if (!mediaList.isEmpty()) {
-                    trackTitle.setText(fileList.get(0).getName());
-                    tableMusic.scrollTo(0);
-                    tableMusic.getSelectionModel().clearAndSelect(0);
-                    media = mediaList.get(0);
-                    openMedia(media);
-                }
+    private void setPrev(){
+        if (mediaPlayer != null) {
+            handleEndOfMedia(true); 
+        }
+    }
+    private void setNext(){
+        if (mediaPlayer != null) {
+            handleEndOfMedia(false);
+        }else{
+            if (!mediaList.isEmpty()) {
+                trackTitle.setText(fileList.get(0).getName());
+                tableMusic.scrollTo(0);
+                tableMusic.getSelectionModel().clearAndSelect(0);
+                media = mediaList.get(0);
+                openMedia(media);
             }
-        });
-        bPrev.setOnAction((event) -> {
-            if (mediaPlayer != null) {
-                handleEndOfMedia(true); 
-            }
-        });
+        }
     }
     private void sliderProperties(){
         slider.setOnMouseReleased((event) -> {

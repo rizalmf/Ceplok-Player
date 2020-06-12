@@ -10,6 +10,7 @@ import static java.lang.Integer.min;
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -25,7 +26,6 @@ public class LaplapVisualizer implements Visualizer{
     
     private Integer numBands;
     private HBox visualBox;
-    
     private Double width = 0.0;
     private Double height = 0.0;
     private Double degree = 0.0;
@@ -43,7 +43,7 @@ public class LaplapVisualizer implements Visualizer{
    
     private Circle[] circles;
     private Rectangle[] rectangles;
-    
+       
     @Override
     public String getName() {
         return name;

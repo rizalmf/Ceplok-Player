@@ -10,7 +10,9 @@ import ceplok.player.Media.Visualizer.Visualizer;
 import ceplok.player.Media.Visualizer.impl.LaplapVisualizer;
 import ceplok.player.Media.Visualizer.impl.NdogVisualizer;
 import ceplok.player.Media.Visualizer.impl.StandardVisualizer;
+import ceplok.player.Media.Visualizer.impl.TrackImageVisualizer;
 import ceplok.player.model.DataProp;
+import ceplok.player.util.SessionColor;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -18,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSlider;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import java.awt.Desktop;
 import java.io.BufferedReader;
@@ -40,6 +43,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -54,6 +59,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.DirectoryChooser;
@@ -102,13 +108,9 @@ public class MainController implements Initializable {
     @FXML
     private JFXButton bNext;
     @FXML
-    private JFXSlider slider;
-    @FXML
     private Label ltCurrent;
     @FXML
     private Label ltDuration;
-    @FXML
-    private JFXButton bShuffle;
     @FXML
     private JFXButton bList;
     @FXML
@@ -130,21 +132,39 @@ public class MainController implements Initializable {
     @FXML
     private JFXButton bListFile;
     @FXML
-    private JFXButton bRepeat;
-    @FXML
     private TableView<DataProp> tableMusic;
     @FXML
     private TableColumn<DataProp, String> colTitle;
     @FXML
     private TableColumn<DataProp, String> colDuration;
     @FXML
-    private FontAwesomeIconView viewRepeat;
-    @FXML
-    private FontAwesomeIconView viewShuffle;
-    @FXML
     private HBox visualBoxParent;
     @FXML
     private JFXButton bGithub;
+    @FXML
+    private JFXSlider sliderTrack;
+    @FXML
+    private JFXButton bVolume;
+    @FXML
+    private JFXButton bShuffleRepeat;
+    @FXML
+    private HBox boxVolume;
+    @FXML
+    private JFXSlider sliderVolume;
+    @FXML
+    private FontAwesomeIconView viewShuffleRepeat;
+    @FXML
+    private HBox boxChildTrack;
+    @FXML
+    private ColorPicker bColor;
+    @FXML
+    private VBox boxChildPlayer;
+    @FXML
+    private VBox boxChildSide;
+    @FXML
+    private VBox boxChildVolume;
+    @FXML
+    private HBox boxChildHeaderList;
 
     /**
      * Initializes the controller class.
@@ -161,13 +181,45 @@ public class MainController implements Initializable {
         parent.setBackground(Background.EMPTY);
         boxMainProperties();
         boxListProperties();
+        boxVolumeProperties();
         Platform.runLater(() -> {
             boxMain.setLayoutX(400);boxMain.setLayoutY(200);
             boxList.setLayoutX(400);boxList.setLayoutY(415);
             //check files
             checkStoredList();
+            colorProperties();
+            stageProperties();
         });
     }   
+    private void stageProperties(){
+        Stage stage = (Stage) parent.getScene().getWindow();
+        Scene scene = stage.getScene();
+        scene.setOnKeyReleased((event) -> {
+            switch(event.getCode()){
+                case X: if (mediaPlayer != null) {
+                            if (mediaPlayer.statusProperty().get() == MediaPlayer.Status.PLAYING) {
+                                setPause();
+                            }else{ setPlay(); }
+                        }else{ setPlay(); }break;
+                case S: setStop();
+                        break;
+                case P: setPrev();
+                        break;
+                case N: setNext();
+                        break;
+                case L: boxList.setVisible(!boxList.isVisible());
+                        if(boxList.isVisible()) tableMusic.requestFocus();
+                        break;
+                case M: stage.setIconified(true);
+                        break;
+            }
+        });
+        bPlay.setTooltip(new Tooltip("shortcut: X"));
+        bPause.setTooltip(new Tooltip("shortcut: X"));
+        bStop.setTooltip(new Tooltip("shortcut: S"));
+        bPrev.setTooltip(new Tooltip("shortcut: P"));
+        bNext.setTooltip(new Tooltip("shortcut: N"));
+    }
     private void checkStoredList(){
         File file = new File("list.txt");
         if (file.exists()) {
@@ -256,57 +308,76 @@ public class MainController implements Initializable {
         boxTrackTitle.setClip(rect);
     }
     private void playerProperties(){
-        bPlayProperties();
-        bPauseProperties();
-        bStopProperties();
-        bNextPrevProperties();
+        bPlay.setOnAction((event) -> {
+            setPlay();
+        });
+        bPause.setOnAction((event) -> {
+            setPause();
+        });
+        bStop.setOnAction((event) -> {
+            setStop();
+        });
+        bNext.setOnAction((event) -> {
+            setNext();
+        });
+        bPrev.setOnAction((event) -> {
+            setPrev();
+        });
         sliderProperties();
     }
     private void windowProperties(){
-        bMinimize.setOnAction((event) -> {
-            Node node = (Node) event.getSource();
-            Stage stage = (Stage) node.getScene().getWindow();
-            stage.setIconified(true);
-        });
+        bExit.setTooltip(new Tooltip("exit app"));
         bExit.setOnAction((event) -> {
             if (mediaPlayer != null) {
                 mediaPlayer.stop();
             }
             System.exit(0);
         });
+        bMinimize.setTooltip(new Tooltip("minimize app"));
+        bMinimize.setOnAction((event) -> {
+            Node node = (Node) event.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+            stage.setIconified(true);
+        });
+        bVisual.setTooltip(new Tooltip("change visualizer"));
         bVisual.setOnAction((event) -> {
             if (currentVisualizer != null) {
                 currentVisualizer.end();
             }
             switch(visualState){
                 case 0: currentVisualizer= new NdogVisualizer();
-                        visualState = 2;break;
+                        visualState =2;break;
                 case 1: currentVisualizer= new LaplapVisualizer();//takeout laplap. not cool
+                        visualState++;break;
+                case 2: currentVisualizer= new TrackImageVisualizer(trackImg);
                         visualState++;break;
                 default:currentVisualizer= new StandardVisualizer();
                         visualState =0;break;
             }
-            numBands = (visualState==99)?16:120;
+            //numBands = (visualState==3)?10:120; //bug magnitudes
             currentVisualizer.start(numBands, visualBox);
         });
+        bList.setTooltip(new Tooltip((boxList.isVisible())?"open music list":"close music list"));
         bList.setOnAction((e) -> {
             boxList.setVisible(!boxList.isVisible());
+            bList.setTooltip(new Tooltip((boxList.isVisible())?"open music list":"close music list"));
         });
-        bRepeat.setTooltip(new Tooltip((repeat)?"repeat is active":"repeat disabled"));
-        bRepeat.setOnAction((event) -> {
-            repeat = !repeat;
-            viewRepeat.setFill(Paint.valueOf((repeat)? "#ffee00":"#ffffff"));
-            bRepeat.setTooltip(new Tooltip((repeat)?"repeat is active":"repeat disabled"));
-        });
-        bShuffle.setTooltip(new Tooltip((shuffle)?"shuffle is active":"shuffle disabled"));
-        bShuffle.setOnAction((event) -> {
-            shuffle = !shuffle;
-            viewShuffle.setFill(Paint.valueOf((shuffle)? "#ffee00":"#ffffff"));
-            bShuffle.setTooltip(new Tooltip((shuffle)?"shuffle is active":"shuffle disabled"));
-            if (shuffle) {
+        bShuffleRepeat.setTooltip(new Tooltip("repeat disabled"));
+        bShuffleRepeat.setOnAction((event) -> {
+            if (repeat && !shuffle) {
+                shuffle = true;
+                viewShuffleRepeat.setIcon(FontAwesomeIcon.RANDOM);
+                viewShuffleRepeat.setFill(Paint.valueOf("#ffee00"));
+                bShuffleRepeat.setTooltip(new Tooltip("shuffle is active"));
+            }else if(repeat && shuffle){
+                repeat = false; shuffle = false;
+                viewShuffleRepeat.setIcon(FontAwesomeIcon.REPEAT);
+                viewShuffleRepeat.setFill(Paint.valueOf("#ffffff"));
+                bShuffleRepeat.setTooltip(new Tooltip("repeat disabled"));
+            }else{
                 repeat = true;
-                viewRepeat.setFill(Paint.valueOf((repeat)? "#ffee00":"#ffffff"));
-                bRepeat.setTooltip(new Tooltip((repeat)?"repeat is active":"repeat disabled"));
+                viewShuffleRepeat.setFill(Paint.valueOf("#ffee00"));
+                bShuffleRepeat.setTooltip(new Tooltip("repeat is active"));
             }
         });
         bGithub.setTooltip(new Tooltip("Check out my other projects here :D"));
@@ -317,68 +388,102 @@ public class MainController implements Initializable {
                 Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-    }
-    private void bPlayProperties(){
-        bPlay.setOnAction((event) -> {
-            if (mediaPlayer != null) {
-                mediaPlayer.play();
-            }else{
-                if (!mediaList.isEmpty()) {
-                    trackTitle.setText(fileList.get(0).getName());
-                    media = mediaList.get(0);
-                    tableMusic.scrollTo(0);
-                    tableMusic.getSelectionModel().clearAndSelect(0);
-                    openMedia(media);
-                }
-            }
+        bVolume.setTooltip(new Tooltip("adjust volume"));
+        bVolume.setOnAction((event) -> {
+            boxVolume.setVisible(!boxVolume.isVisible());
         });
     }
-    private void bPauseProperties(){
-        bPause.setOnAction((event) -> {
-            if (mediaPlayer != null) {
-                mediaPlayer.pause(); 
-            }
+    private void colorProperties(){
+        bColor.setTooltip(new Tooltip("change color theme"));
+        bColor.setOnAction((event) -> {
+            String rgb = toRGB(bColor.getValue());
+            java.util.Set<Node> nodes = parent.lookupAll("#bluePane");
+            nodes.forEach((n) -> {
+                n.setStyle("-fx-background-color:"+rgb+";");
+            });
+            //save to device to reg
+            new SessionColor().setColor(rgb);
         });
+        String c = new SessionColor().getColor();
+        if (c != null) {
+            java.util.Set<Node> nodes = parent.lookupAll("#bluePane");
+            nodes.forEach((n) -> {
+                n.setStyle("-fx-background-color:"+c+";");
+            });
+        }
     }
-    private void bStopProperties(){
-        bStop.setOnAction((event) -> {
-            if (mediaPlayer != null) {
-                slider.setValue(0);
-                mediaPlayer.stop(); 
-            }
-        });
+     private String toRGB(Color color){
+        return String.format("#%02X%02X%02X", 
+                (int) (color.getRed() * 255),
+                (int) (color.getGreen() * 255),
+                (int) (color.getBlue()* 255)
+                );
     }
-    private void bNextPrevProperties(){
-        bNext.setOnAction((event) -> {
-            if (mediaPlayer != null) {
-                handleEndOfMedia(false);
-            }else{
-                if (!mediaList.isEmpty()) {
-                    trackTitle.setText(fileList.get(0).getName());
-                    tableMusic.scrollTo(0);
-                    tableMusic.getSelectionModel().clearAndSelect(0);
-                    media = mediaList.get(0);
-                    openMedia(media);
-                }
+    private void setPlay(){
+        if (mediaPlayer != null) {
+            mediaPlayer.play();
+        }else{
+            if (!mediaList.isEmpty()) {
+                trackTitle.setText(fileList.get(0).getName());
+                media = mediaList.get(0);
+                tableMusic.scrollTo(0);
+                tableMusic.getSelectionModel().clearAndSelect(0);
+                openMedia(media);
             }
-        });
-        bPrev.setOnAction((event) -> {
-            if (mediaPlayer != null) {
-                handleEndOfMedia(true); 
+        }
+    }
+    private void setPause(){
+        if (mediaPlayer != null) {
+            mediaPlayer.pause(); 
+        }
+    }
+    private void setStop(){
+        if (mediaPlayer != null) {
+            mediaPlayer.volumeProperty().unbind();
+            sliderTrack.setValue(0);
+            mediaPlayer.stop(); 
+        }
+    }
+    private void setPrev(){
+        if (mediaPlayer != null) {
+            handleEndOfMedia(true); 
+        }
+    }
+    private void setNext(){
+        if (mediaPlayer != null) {
+            handleEndOfMedia(false);
+        }else{
+            if (!mediaList.isEmpty()) {
+                trackTitle.setText(fileList.get(0).getName());
+                tableMusic.scrollTo(0);
+                tableMusic.getSelectionModel().clearAndSelect(0);
+                media = mediaList.get(0);
+                openMedia(media);
             }
-        });
+        }
     }
     private void sliderProperties(){
-        slider.setOnMouseReleased((event) -> {
+        sliderTrack.setOnMouseReleased((event) -> {
             if (mediaPlayer != null) {
-                mediaPlayer.seek(new Duration(slider.getValue()));
+                mediaPlayer.seek(new Duration(sliderTrack.getValue()));
 
                 currentVisualizer.start(numBands, visualBox);
                 mediaPlayer.play();
             }  
         });
-        slider.valueProperty().addListener((obs, oldVal, newVal) -> {
+        sliderTrack.valueProperty().addListener((obs, oldVal, newVal) -> {
             ltCurrent.setText(convertMs(newVal.doubleValue()));
+        });
+        
+        //unused
+        sliderVolume.setOnMouseDragged((event) -> {
+        });
+        sliderVolume.setOnScroll((event) -> {
+            if (sliderVolume.getValue() > 1.0 
+                    || sliderVolume.getValue() < 0.0) {
+                return;
+            }
+            sliderVolume.setValue(sliderVolume.getValue() + ((event.getDeltaY()>=0)? 0.03:-0.03));
         });
     }
     private boolean addFile(File file, boolean isPlay){
@@ -463,8 +568,8 @@ public class MainController implements Initializable {
     private void handleUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
         Duration ct = mediaPlayer.getCurrentTime();
         double ms = ct.toMillis();
-        if (!slider.isPressed()) {
-            slider.setValue(ms);
+        if (!sliderTrack.isPressed()) {
+            sliderTrack.setValue(ms);
         }
        currentVisualizer.update(timestamp, duration, magnitudes, phases);
     }
@@ -475,13 +580,16 @@ public class MainController implements Initializable {
         Duration ct = mediaPlayer.getCurrentTime();
         ltCurrent.setText(convertMs(ct.toMillis()));
         currentVisualizer.start(numBands, visualBox);
-        slider.setMin(0);
-        slider.setMax(duration.toMillis());
+        mediaPlayer.volumeProperty().unbind();
+        mediaPlayer.volumeProperty().bind(sliderVolume.valueProperty());
+        sliderTrack.setMin(0);
+        sliderTrack.setMax(duration.toMillis());
     }
     private void handleEndOfMedia(boolean isPrev) {
         mediaPlayer.stop();
         mediaPlayer.seek(Duration.ZERO);
-        slider.setValue(0);
+        mediaPlayer.volumeProperty().unbind();
+        sliderTrack.setValue(0);
         boolean found = false;
         if (isPrev) {
             for (int i = mediaList.size()-1; i >= 0; i--) {
@@ -541,6 +649,14 @@ public class MainController implements Initializable {
         String sSecond = (second < 10)? "0"+second :second+"";
         return (hour==0) ?minute+":"+sSecond :hour+":"+minute+":"+sSecond;
     }
+    
+    private void boxVolumeProperties(){
+        boxVolume.setVisible(false);
+        boxVolume.visibleProperty().addListener((obs, oldVal, newVal) -> {
+            if(newVal) sliderVolume.requestFocus();
+        });
+    }
+    
     private void boxListProperties(){
         boxList.setVisible(false);
         boxMain.setLayoutX(400);
@@ -630,7 +746,8 @@ public class MainController implements Initializable {
             boxList.toFront();
             if (event.getClickCount() ==2) {
                 DataProp data = tableMusic.getSelectionModel().getSelectedItem();
-                slider.setValue(0);
+                mediaPlayer.volumeProperty().unbind();
+                sliderTrack.setValue(0);
                 trackTitle.setText(data.getFileData().getName());
                 media = data.getMediaData();
                 if (mediaPlayer != null) {
@@ -660,7 +777,8 @@ public class MainController implements Initializable {
                 tableMusic.setItems(dataProps);
             }else if(event.getCode() == KeyCode.ENTER){
                 DataProp data = tableMusic.getSelectionModel().getSelectedItems().get(0);
-                slider.setValue(0);
+                mediaPlayer.volumeProperty().unbind();
+                sliderTrack.setValue(0);
                 trackTitle.setText(data.getFileData().getName());
                 media = data.getMediaData();
                 if (mediaPlayer != null) {

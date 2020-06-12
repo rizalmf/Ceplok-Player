@@ -10,9 +10,9 @@
 ![2](2fix.PNG)
 
 ### Changelog
-V1.0.2
- - fix wording, bug selection table, focus node
-V1.0.1
- - improve ndog visualizer performance
-V1.0.0
- - first commit
+- V1.0.2
+   - fix wording, bug selection table, focus node
+- V1.0.1
+   - improve ndog visualizer performance
+- V1.0.0
+   - first commit

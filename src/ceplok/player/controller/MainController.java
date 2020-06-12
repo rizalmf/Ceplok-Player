@@ -438,7 +438,8 @@ public class MainController implements Initializable {
         sliderVolume.setOnMouseDragged((event) -> {
         });
         sliderVolume.setOnScroll((event) -> {
-            if (sliderVolume.getValue() > 1.0 || sliderVolume.getValue() < 0.0) {
+            if (sliderVolume.getValue() > 1.0 
+                    || sliderVolume.getValue() < 0.0) {
                 return;
             }
             sliderVolume.setValue(sliderVolume.getValue() + ((event.getDeltaY()>=0)? 0.03:-0.03));

@@ -10,6 +10,8 @@
 ![2](2fix.PNG)
 
 ### Changelog
+- v1.2.2
+   - minor bug volume control, add scrollable volume
 - v1.2.1
    - add volume control
 - v1.1.1

@@ -2,12 +2,17 @@
  MP3 Player With Your Favorite EGG :D
 
 ## Download app
-  - [Ceplok Media Player.zip](https://github.com/rizalmf/Ceplok-Player/raw/filerepo/out/Ceplok%20Media%20Player(JRE%20Needed).zip) (JRE and JavaFx SDK needed).
-  - [Ceplok Media Player-Installer.exe](https://github.com/rizalmf/Ceplok-Player/raw/filerepo/out/Ceplok%20Media%20Player-Installer.exe) (Windows only).
-
-### **Requirements**
-- jdk 8
+  - [Ceplok Media PlayerV1.0.2.zip](https://github.com/rizalmf/Ceplok-Player/raw/filerepo/out/Ceplok%20Media%20PlayerV1.0.2.zip) (JRE 8 and JavaFx 8 SDK needed).
+  - [Ceplok Media Player-InstallerV1.0.2.exe](https://github.com/rizalmf/Ceplok-Player/raw/filerepo/out/Ceplok%20Media%20PlayerV1.0.2-Installer.exe) (Windows only).
 
 ### Screenshot
 ![1](1.PNG)
 ![2](2.PNG)
+
+### Changelog
+V1.0.2
+ - fix wording, bug selection table, focus node
+V1.0.1
+ - improve ndog visualizer performance
+V1.0.0
+ - first commit

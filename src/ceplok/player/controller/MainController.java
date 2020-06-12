@@ -217,6 +217,7 @@ public class MainController implements Initializable {
         boxMain.setLayoutX(400);
         boxMain.setLayoutY(200);
         boxMain.setOnMousePressed((e) -> {
+            boxMain.toFront();
             boxMain.setOpacity(0.8);
             xOffset = boxMain.getLayoutX()- e.getSceneX();
             yOffset = boxMain.getLayoutY()- e.getSceneY();
@@ -325,7 +326,8 @@ public class MainController implements Initializable {
                 if (!mediaList.isEmpty()) {
                     trackTitle.setText(fileList.get(0).getName());
                     media = mediaList.get(0);
-                    tableMusic.getSelectionModel().select(0);
+                    tableMusic.scrollTo(0);
+                    tableMusic.getSelectionModel().clearAndSelect(0);
                     openMedia(media);
                 }
             }
@@ -353,7 +355,8 @@ public class MainController implements Initializable {
             }else{
                 if (!mediaList.isEmpty()) {
                     trackTitle.setText(fileList.get(0).getName());
-                    tableMusic.getSelectionModel().select(0);
+                    tableMusic.scrollTo(0);
+                    tableMusic.getSelectionModel().clearAndSelect(0);
                     media = mediaList.get(0);
                     openMedia(media);
                 }
@@ -486,7 +489,8 @@ public class MainController implements Initializable {
                     if (media.getDuration() == mediaList.get(i).getDuration()) {
                         found = true;
                         media = mediaList.get(i-1);
-                        tableMusic.getSelectionModel().select(i-1);
+                        tableMusic.scrollTo(i-1);
+                        tableMusic.getSelectionModel().clearAndSelect(i-1);
                         trackTitle.setText(fileList.get(i-1).getName());
                         openMedia(media);
                         break;
@@ -500,7 +504,8 @@ public class MainController implements Initializable {
                         if (media.getDuration() == mediaList.get(i-1).getDuration()) {
                             found = true;
                             media = mediaList.get(i);
-                            tableMusic.getSelectionModel().select(i);
+                            tableMusic.scrollTo(i);
+                            tableMusic.getSelectionModel().clearAndSelect(i);
                             trackTitle.setText(fileList.get(i).getName());
                             openMedia(media);
                             break;
@@ -511,7 +516,8 @@ public class MainController implements Initializable {
                 found = true;
                 int i = new Random().nextInt(mediaList.size());
                 media = mediaList.get(i);
-                tableMusic.getSelectionModel().select(i);
+                tableMusic.scrollTo(i);
+                tableMusic.getSelectionModel().clearAndSelect(i);
                 trackTitle.setText(fileList.get(i).getName());
                 openMedia(media);
             }
@@ -522,7 +528,8 @@ public class MainController implements Initializable {
                 trackTitle.setText((isPrev)?fileList.get(fileList.size()-1).getName()
                         :fileList.get(0).getName());
                 media = mediaList.get((isPrev)?mediaList.size()-1:0);
-                tableMusic.getSelectionModel().select((isPrev)?mediaList.size()-1:0);
+                tableMusic.scrollTo((isPrev)?mediaList.size()-1:0);
+                tableMusic.getSelectionModel().clearAndSelect((isPrev)?mediaList.size()-1:0);
                 openMedia(media);
             }
         }
@@ -542,6 +549,7 @@ public class MainController implements Initializable {
             boxList.setVisible(false);
         });
         boxList.setOnMousePressed((e) -> {
+            boxList.toFront();
             boxList.setOpacity(0.8);
             xOffset = boxList.getLayoutX()- e.getSceneX();
             yOffset = boxList.getLayoutY()- e.getSceneY();
@@ -619,6 +627,7 @@ public class MainController implements Initializable {
                 SelectionMode.MULTIPLE
         );
         tableMusic.setOnMouseClicked((event) -> {
+            boxList.toFront();
             if (event.getClickCount() ==2) {
                 DataProp data = tableMusic.getSelectionModel().getSelectedItem();
                 slider.setValue(0);

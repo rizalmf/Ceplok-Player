@@ -6,8 +6,8 @@
   - [Ceplok Media Player-InstallerV1.0.2.exe](https://github.com/rizalmf/Ceplok-Player/raw/filerepo/out/Ceplok%20Media%20PlayerV1.0.2-Installer.exe) (Windows only).
 
 ### Screenshot
-![1](1.PNG)
-![2](2.PNG)
+![1](1fix.PNG)
+![2](2fix.PNG)
 
 ### Changelog
 V1.0.2

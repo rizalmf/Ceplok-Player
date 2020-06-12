@@ -12,11 +12,11 @@
 
 ### Changelog
 - **v1.3.1 (build ready)**
-   - save color choosed, fix bug magnitude listener
+   - save color choosed, fix bug magnitude listener, fix shortcut keyboard
 - v1.3.0
    - add change color, fix bug track visualizer
 - v1.2.2
-   - minor bug volume control, add scrollable volume
+   - minor bug volume control, add scrollable volume, add shortcut keyboard
 - v1.2.1
    - add volume control
 - v1.1.1

@@ -4,14 +4,14 @@
 ## Download app
   - [Ceplok Media Player v1.3.1.zip](https://github.com/rizalmf/Ceplok-Player/raw/filerepo/out/Ceplok%20Media%20PlayerV1.3.1.zip) (JRE 8 and JavaFx 8 SDK needed).
   - [Ceplok Media Player v1.3.1-Installer.exe](https://github.com/rizalmf/Ceplok-Player/raw/filerepo/out/Ceplok%20Media%20PlayerV1.3.1-Installer.exe) (Windows only).
-  - [Older version..](https://github.com/rizalmf/Ceplok-Player/raw/filerepo/out/Ceplok%20Media%20PlayerV1.0.2-Installer.exe) (https://github.com/rizalmf/Ceplok-Player/tree/filerepo/out).
+  - [Older version..](https://github.com/rizalmf/Ceplok-Player/tree/filerepo/out) ().
 
 ### Screenshot
 ![1](1fix.PNG)
 ![2](2fix.PNG)
 
 ### Changelog
-- v1.3.1
+- **v1.3.1 (build ready)**
    - save color choosed, fix bug magnitude listener
 - v1.3.0
    - add change color, fix bug track visualizer

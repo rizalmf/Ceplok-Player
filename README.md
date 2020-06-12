@@ -10,9 +10,13 @@
 ![2](2fix.PNG)
 
 ### Changelog
-- V1.0.2
-   - fix wording, bug selection table, focus node
-- V1.0.1
+- v1.1.1
    - improve ndog visualizer performance
-- V1.0.0
+- v1.1.0
+   - add TrackVisualizer, fix focus node
+- v1.0.2(build ready)
+   - fix wording, bug selection table
+- v1.0.1
+   - improve ndog visualizer performance
+- v1.0.0
    - first commit

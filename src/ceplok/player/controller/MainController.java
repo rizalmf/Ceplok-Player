@@ -401,7 +401,7 @@ public class MainController implements Initializable {
             nodes.forEach((n) -> {
                 n.setStyle("-fx-background-color:"+rgb+";");
             });
-            //save to device reg
+            //save to device to reg
             new SessionColor().setColor(rgb);
         });
         String c = new SessionColor().getColor();

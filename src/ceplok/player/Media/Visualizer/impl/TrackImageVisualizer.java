@@ -53,6 +53,7 @@ public class TrackImageVisualizer implements Visualizer{
         Rectangle rp = new Rectangle(162, 162);
         rp.setArcWidth(6);
         rp.setArcHeight(6);
+        //bug not centering
         pane = new StackPane();
         pane.setPrefSize(162, 162);
         pane.setClip(rp);

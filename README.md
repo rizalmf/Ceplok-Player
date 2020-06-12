@@ -10,6 +10,8 @@
 ![2](2fix.PNG)
 
 ### Changelog
+- v1.3.1
+   - save color choosed, fix bug magnitude listener
 - v1.3.0
    - add change color, fix bug track visualizer
 - v1.2.2

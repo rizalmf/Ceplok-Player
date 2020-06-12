@@ -13,6 +13,7 @@ import java.util.prefs.Preferences;
  */
 public class SessionColor {
     private Preferences p;
+    //node ceplok_properties
     public void setColor(String color){
         p = Preferences.userRoot().node("ceplok_properties");
         p.put("color", color);

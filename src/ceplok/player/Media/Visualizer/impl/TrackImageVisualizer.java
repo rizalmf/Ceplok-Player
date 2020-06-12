@@ -7,12 +7,10 @@ package ceplok.player.Media.Visualizer.impl;
 
 import ceplok.player.CeplokPlayer;
 import ceplok.player.Media.Visualizer.Visualizer;
-import javafx.beans.property.DoubleProperty;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 
@@ -27,7 +25,7 @@ public class TrackImageVisualizer implements Visualizer{
     private ImageView trackImg;
     
     private StackPane spane;
-    private Pane pane;
+    private StackPane pane;
     
     public TrackImageVisualizer(ImageView trackImg){
         this.trackImg = trackImg;
@@ -48,12 +46,16 @@ public class TrackImageVisualizer implements Visualizer{
         imgView.setPreserveRatio(false);
         imgView.setFitWidth(156);imgView.setFitHeight(156);
         imgView.prefWidth(156); imgView.prefHeight(156);
-        Rectangle r = new Rectangle(156, 156);
-        r.setArcWidth(6);
-        r.setArcHeight(6);
-        imgView.setClip(r);
-        pane = new Pane();
-        pane.setClip(new Rectangle(162, 162));
+        Rectangle rv = new Rectangle(156, 156);
+        rv.setArcWidth(6);
+        rv.setArcHeight(6);
+        imgView.setClip(rv);
+        Rectangle rp = new Rectangle(162, 162);
+        rp.setArcWidth(6);
+        rp.setArcHeight(6);
+        pane = new StackPane();
+        pane.setPrefSize(162, 162);
+        pane.setClip(rp);
         
         StackPane pgif = new StackPane();
         pgif.setPrefSize(156, 156);
@@ -72,10 +74,11 @@ public class TrackImageVisualizer implements Visualizer{
         visualBox.getChildren().clear();
         visualBox.getChildren().add(spane);
     }
-DoubleProperty dp;
+    
     @Override
     public void end() {//flush
         if (spane != null) {
+            spane.getChildren().clear();
             visualBox.getChildren().clear();
         }
     }
@@ -89,6 +92,7 @@ DoubleProperty dp;
     public void update(double timestamp, double duration, float[] magnitudes, float[] phases) {
         double A =((double)(60.0 +magnitudes[magnitudes.length/3]))/55;A *= 100;
         String as = (A+"").replaceAll("\\.", "").substring(0, 2);
+//        System.out.println(as);
         pane.setStyle("-fx-background-color: #000000"+as+";" );
     }
 }

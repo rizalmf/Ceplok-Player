@@ -6,6 +6,7 @@
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -28,15 +29,32 @@
                <children>
                   <HBox spacing="5.0">
                      <children>
-                        <HBox id="bluePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="78.0" prefWidth="225.0" spacing="3.0">
+                        <HBox id="bluePane" fx:id="boxChildTrack" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="78.0" prefWidth="225.0" spacing="3.0">
                            <children>
                               <ImageView fx:id="trackImg" fitHeight="68.0" fitWidth="77.0" pickOnBounds="true">
                                  <HBox.margin>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <VBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                              <VBox HBox.hgrow="ALWAYS">
                                  <children>
+                                    <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="51.0">
+                                       <children>
+                                          <JFXButton contentDisplay="GRAPHIC_ONLY" prefHeight="27.0" prefWidth="27.0" ripplerFill="#ffee00" style="-fx-background-radius: 5em;">
+                                             <graphic>
+                                                <FontAwesomeIconView fill="WHITE" glyphName="DELICIOUS" />
+                                             </graphic>
+                                             <HBox.margin>
+                                                <Insets right="-27.0" />
+                                             </HBox.margin>
+                                          </JFXButton>
+                                          <ColorPicker fx:id="bColor" maxHeight="-Infinity" maxWidth="-Infinity" opacity="0.0" prefHeight="25.0" prefWidth="27.0">
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </ColorPicker>
+                                       </children>
+                                    </HBox>
                                     <HBox fx:id="boxTrackTitle">
                                        <children>
                                           <Pane>
@@ -78,7 +96,7 @@
                   </HBox>
                   <HBox maxHeight="82.0" minHeight="78.0" prefHeight="82.0" prefWidth="230.0" spacing="5.0">
                      <children>
-                        <VBox id="bluePane" prefHeight="78.0" prefWidth="225.0" spacing="4.0">
+                        <VBox id="bluePane" fx:id="boxChildPlayer" prefHeight="78.0" prefWidth="225.0" spacing="4.0">
                            <children>
                               <HBox alignment="TOP_CENTER">
                                  <children>
@@ -197,7 +215,7 @@
             </HBox>
             <HBox fillHeight="false">
                <children>
-                  <VBox id="bluePane" prefHeight="166.0" prefWidth="28.0">
+                  <VBox id="bluePane" fx:id="boxChildSide" prefHeight="166.0" prefWidth="28.0">
                      <children>
                         <JFXButton fx:id="bExit" contentDisplay="GRAPHIC_ONLY" prefHeight="28.0" prefWidth="28.0" ripplerFill="#ffee00" style="-fx-background-radius: 5em;" textFill="WHITE">
                            <graphic>
@@ -250,7 +268,7 @@
             </HBox>
             <HBox fx:id="boxVolume" fillHeight="false" layoutX="248.0" layoutY="10.0" prefHeight="176.0" prefWidth="16.0">
                <children>
-                  <VBox id="bluePane" alignment="TOP_CENTER" prefHeight="108.0" prefWidth="16.0">
+                  <VBox id="bluePane" fx:id="boxChildVolume" alignment="TOP_CENTER" prefHeight="108.0" prefWidth="16.0">
                      <effect>
                         <DropShadow height="6.17" radius="2.585" width="6.17" />
                      </effect>
@@ -272,7 +290,7 @@
          <children>
             <Pane prefHeight="351.0" prefWidth="623.0">
                <children>
-                  <HBox id="bluePane" layoutY="-30.0" prefHeight="42.0" prefWidth="376.0">
+                  <HBox id="bluePane" fx:id="boxChildHeaderList" layoutY="-30.0" prefHeight="42.0" prefWidth="376.0">
                      <children>
                         <HBox HBox.hgrow="ALWAYS">
                            <children>

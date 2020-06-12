@@ -10,6 +10,8 @@
 ![2](2fix.PNG)
 
 ### Changelog
+- v1.3.0
+   - add change color, fix bug track visualizer
 - v1.2.2
    - minor bug volume control, add scrollable volume
 - v1.2.1
@@ -17,7 +19,7 @@
 - v1.1.1
    - improve ndog visualizer performance
 - v1.1.0
-   - add TrackVisualizer, fix focus node
+   - add track visualizer, fix focus node
 - v1.0.2 **(build ready)**
    - fix wording, bug selection table
 - v1.0.1

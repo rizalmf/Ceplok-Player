@@ -12,6 +12,7 @@ import ceplok.player.Media.Visualizer.impl.NdogVisualizer;
 import ceplok.player.Media.Visualizer.impl.StandardVisualizer;
 import ceplok.player.Media.Visualizer.impl.TrackImageVisualizer;
 import ceplok.player.model.DataProp;
+import ceplok.player.util.SessionColor;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -43,6 +44,7 @@ import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -57,6 +59,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.DirectoryChooser;
@@ -150,6 +153,18 @@ public class MainController implements Initializable {
     private JFXSlider sliderVolume;
     @FXML
     private FontAwesomeIconView viewShuffleRepeat;
+    @FXML
+    private HBox boxChildTrack;
+    @FXML
+    private ColorPicker bColor;
+    @FXML
+    private VBox boxChildPlayer;
+    @FXML
+    private VBox boxChildSide;
+    @FXML
+    private VBox boxChildVolume;
+    @FXML
+    private HBox boxChildHeaderList;
 
     /**
      * Initializes the controller class.
@@ -172,6 +187,7 @@ public class MainController implements Initializable {
             boxList.setLayoutX(400);boxList.setLayoutY(415);
             //check files
             checkStoredList();
+            colorProperties();
             stageProperties();
         });
     }   
@@ -338,7 +354,7 @@ public class MainController implements Initializable {
                 default:currentVisualizer= new StandardVisualizer();
                         visualState =0;break;
             }
-            numBands = (visualState==3)?10:120;
+            //numBands = (visualState==3)?10:120; //bug magnitudes
             currentVisualizer.start(numBands, visualBox);
         });
         bList.setTooltip(new Tooltip((boxList.isVisible())?"open music list":"close music list"));
@@ -377,7 +393,32 @@ public class MainController implements Initializable {
             boxVolume.setVisible(!boxVolume.isVisible());
         });
     }
-    
+    private void colorProperties(){
+        bColor.setTooltip(new Tooltip("change color theme"));
+        bColor.setOnAction((event) -> {
+            String rgb = toRGB(bColor.getValue());
+            java.util.Set<Node> nodes = parent.lookupAll("#bluePane");
+            nodes.forEach((n) -> {
+                n.setStyle("-fx-background-color:"+rgb+";");
+            });
+            //save to device reg
+            new SessionColor().setColor(rgb);
+        });
+        String c = new SessionColor().getColor();
+        if (c != null) {
+            java.util.Set<Node> nodes = parent.lookupAll("#bluePane");
+            nodes.forEach((n) -> {
+                n.setStyle("-fx-background-color:"+c+";");
+            });
+        }
+    }
+     private String toRGB(Color color){
+        return String.format("#%02X%02X%02X", 
+                (int) (color.getRed() * 255),
+                (int) (color.getGreen() * 255),
+                (int) (color.getBlue()* 255)
+                );
+    }
     private void setPlay(){
         if (mediaPlayer != null) {
             mediaPlayer.play();

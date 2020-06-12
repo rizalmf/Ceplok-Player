@@ -18,7 +18,7 @@
    - improve ndog visualizer performance
 - v1.1.0
    - add TrackVisualizer, fix focus node
-- v1.0.2(build ready)
+- v1.0.2 **(build ready)**
    - fix wording, bug selection table
 - v1.0.1
    - improve ndog visualizer performance

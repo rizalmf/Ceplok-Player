@@ -7,8 +7,9 @@
   - [Older version..](https://github.com/rizalmf/Ceplok-Player/tree/filerepo/out) ().
 
 ### Screenshot
-![1](1fix.PNG)
-![2](2fix.PNG)
+![1](1.gif)
+![2](2.gif)
+![3](3.gif)
 
 ### Changelog
 - **v1.3.1 (build ready)**

@@ -12,6 +12,8 @@
 ![2](2.gif)
 
 ### Changelog
+- v1.3.2
+   - fix major bug delete table list, fix binding volume, fix random issue
 - **v1.3.1 (build ready)**
    - save color choosed, fix bug magnitude listener, fix shortcut keyboard
 - v1.3.0

@@ -8,8 +8,8 @@
 
 ### Screenshot
 ![1](1.gif)
-![2](2.gif)
 ![3](3.gif)
+![2](2.gif)
 
 ### Changelog
 - **v1.3.1 (build ready)**

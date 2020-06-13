@@ -165,6 +165,8 @@ public class MainController implements Initializable {
     private VBox boxChildVolume;
     @FXML
     private HBox boxChildHeaderList;
+    @FXML
+    private FontAwesomeIconView viewVolume;
 
     /**
      * Initializes the controller class.
@@ -477,6 +479,16 @@ public class MainController implements Initializable {
         
         //unused
         sliderVolume.setOnMouseDragged((event) -> {
+        });
+        sliderVolume.valueProperty().addListener((obs, oldVal, newVal) -> {
+            double vp = newVal.doubleValue();
+            if (vp < 0.7 && vp > 0.0) {
+                viewVolume.setIcon(FontAwesomeIcon.VOLUME_DOWN);
+            }else if(vp > 0.7){
+                viewVolume.setIcon(FontAwesomeIcon.VOLUME_UP);
+            }else{
+                viewVolume.setIcon(FontAwesomeIcon.VOLUME_OFF);
+            }
         });
         sliderVolume.setOnScroll((event) -> {
             if (sliderVolume.getValue() > 1.0 

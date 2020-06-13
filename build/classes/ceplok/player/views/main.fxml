@@ -240,7 +240,7 @@
                         </JFXButton>
                         <JFXButton fx:id="bVolume" contentDisplay="GRAPHIC_ONLY" prefHeight="28.0" prefWidth="28.0" ripplerFill="#ffee00" style="-fx-background-radius: 5em;" textFill="WHITE">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="VOLUME_DOWN" size="16" />
+                              <FontAwesomeIconView fx:id="viewVolume" fill="WHITE" glyphName="VOLUME_UP" size="14" />
                            </graphic>
                         </JFXButton>
                         <JFXButton fx:id="bShuffleRepeat" contentDisplay="GRAPHIC_ONLY" prefHeight="28.0" prefWidth="28.0" ripplerFill="#ffee00" style="-fx-background-radius: 5em;" textFill="WHITE">

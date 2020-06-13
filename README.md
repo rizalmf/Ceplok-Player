@@ -12,6 +12,8 @@
 ![2](2.gif)
 
 ### Changelog
+- v1.4.0
+   - add volume icon change listener
 - **v1.3.3 (build ready)**
    - fix binding volume from stop
 - v1.3.2

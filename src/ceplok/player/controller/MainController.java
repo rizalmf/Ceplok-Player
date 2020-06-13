@@ -439,7 +439,7 @@ public class MainController implements Initializable {
     }
     private void setStop(){
         if (mediaPlayer != null) {
-            mediaPlayer.volumeProperty().unbind();
+//            mediaPlayer.volumeProperty().unbind();//
             sliderTrack.setValue(0);
             mediaPlayer.stop(); 
         }
@@ -621,13 +621,16 @@ public class MainController implements Initializable {
                     }
                 }
             }else{
-                found = true;
-                int i = new Random().nextInt(mediaList.size());
-                media = mediaList.get(i);
-                tableMusic.scrollTo(i);
-                tableMusic.getSelectionModel().clearAndSelect(i);
-                trackTitle.setText(fileList.get(i).getName());
-                openMedia(media);
+                if (!mediaList.isEmpty()) {
+                    found = true;
+                    int i = new Random().nextInt(mediaList.size());
+                    media = mediaList.get(i);
+                    tableMusic.scrollTo(i);
+                    tableMusic.getSelectionModel().clearAndSelect(i);
+                    trackTitle.setText(fileList.get(i).getName());
+                    openMedia(media);
+                }
+                
             }
         }
         
@@ -746,11 +749,11 @@ public class MainController implements Initializable {
             boxList.toFront();
             if (event.getClickCount() ==2) {
                 DataProp data = tableMusic.getSelectionModel().getSelectedItem();
-                mediaPlayer.volumeProperty().unbind();
                 sliderTrack.setValue(0);
                 trackTitle.setText(data.getFileData().getName());
                 media = data.getMediaData();
                 if (mediaPlayer != null) {
+                    mediaPlayer.volumeProperty().unbind();
                     mediaPlayer.stop();
                     mediaPlayer.seek(Duration.ZERO);
                 }
@@ -759,13 +762,18 @@ public class MainController implements Initializable {
         });
         tableMusic.setOnKeyReleased((event) -> {
             if (event.getCode() == KeyCode.DELETE) {
-                //bug selectedItems() at jdk 1.8.0_191
                 ObservableList<DataProp> datas = tableMusic.getSelectionModel().getSelectedItems();
+                
+                // prevent observable size
+                List<DataProp> dataList = new ArrayList<>();
+                datas.forEach((d) -> {
+                    dataList.add(d);
+                });
+                
                 boolean saving = false;
-                for (DataProp data : datas) {
-//                    System.out.println(data.getTitle());
+                for (DataProp dp: dataList) {
                     for (int i = 0; i < fileList.size(); i++) {
-                        if (fileList.get(i).getName().equalsIgnoreCase(data.getTitle())) {
+                        if (fileList.get(i).getName().equalsIgnoreCase(dp.getTitle())) {
                             fileList.remove(i);mediaList.remove(i);
                             dataProps.remove(i);
                             saving = true;

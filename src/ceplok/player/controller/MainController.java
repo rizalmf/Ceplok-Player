@@ -439,7 +439,7 @@ public class MainController implements Initializable {
     }
     private void setStop(){
         if (mediaPlayer != null) {
-            mediaPlayer.volumeProperty().unbind();
+//            mediaPlayer.volumeProperty().unbind();//
             sliderTrack.setValue(0);
             mediaPlayer.stop(); 
         }
